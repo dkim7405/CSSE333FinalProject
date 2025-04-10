@@ -1,5 +1,16 @@
 USE FinalProject_S1G6
 GO
+-- Drop existing tables if they exist
+IF OBJECT_ID('dbo.Adds', 'U') IS NOT NULL DROP TABLE dbo.Adds;
+IF OBJECT_ID('dbo.HasDrinksType', 'U') IS NOT NULL DROP TABLE dbo.[HasDrinksType];
+IF OBJECT_ID('dbo.HasServingSize', 'U') IS NOT NULL DROP TABLE dbo.[HasServingSize];
+IF OBJECT_ID('dbo.AlertedWith', 'U') IS NOT NULL DROP TABLE dbo.[AlertedWith];
+IF OBJECT_ID('dbo.DrinksType', 'U') IS NOT NULL DROP TABLE dbo.[DrinksType];
+IF OBJECT_ID('dbo.ServingSize', 'U') IS NOT NULL DROP TABLE dbo.[ServingSize];
+IF OBJECT_ID('dbo.Message', 'U') IS NOT NULL DROP TABLE dbo.[Message];
+IF OBJECT_ID('dbo.Drink', 'U') IS NOT NULL DROP TABLE dbo.[Drink];
+IF OBJECT_ID('dbo.Manufacturer', 'U') IS NOT NULL DROP TABLE dbo.[Manufacturer];
+IF OBJECT_ID('dbo.User', 'U') IS NOT NULL DROP TABLE dbo.[User];
 
 -- Age is computed attribute based on date_of_birth
 CREATE TABLE [User] (
