@@ -1,15 +1,6 @@
 USE FinalProject_S1G6
 GO
 
--- Tables should be created first if they are referenced by other tables
-
-IF OBJECT_ID('dbo.User') IS NOT NULL
-    DROP TABLE [User];
-IF OBJECT_ID('dbo.Drink') IS NOT NULL
-    DROP TABLE [Drink];
-IF OBJECT_ID('dbo.Manufacturer') IS NOT NULL
-    DROP TABLE [Manufacturer];
-
 -- Age is computed attribute based on date_of_birth
 CREATE TABLE [User] (
     [id] int PRIMARY KEY IDENTITY(1,1),
@@ -41,3 +32,64 @@ CREATE TABLE [Drink] (
         ON UPDATE CASCADE
 );
 
+CREATE TABLE [Message] (
+    [id] int PRIMARY KEY IDENTITY(1,1),
+    [limit_progress] float NOT NULL,
+    [message_text] nvarchar(500) NULL
+);
+
+CREATE TABLE [ServingSize] (
+    [id] int PRIMARY KEY IDENTITY(1,1),
+    [name] nvarchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE [DrinksType] (
+    [id] int PRIMARY KEY IDENTITY(1,1),
+    [name] nvarchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE [AlertedWith] (
+    [user_id] int NOT NULL REFERENCES [User](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    [message_id] int NULL REFERENCES [Message](id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE [HasServingSize] (
+    [drink_id] int NOT NULL REFERENCES [Drink](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    [serving_size_id] int NOT NULL REFERENCES [ServingSize](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    PRIMARY KEY (drink_id, serving_size_id)
+);
+
+CREATE TABLE [HasDrinksType] (
+    [drink_id] int NOT NULL REFERENCES [Drink](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    [drinks_type_id] int NOT NULL REFERENCES [DrinksType](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    PRIMARY KEY (drink_id, drinks_type_id)
+);
+
+CREATE TABLE [Adds] (
+    [time_added] datetime NOT NULL DEFAULT GETDATE(),
+    [user_id] int NOT NULL REFERENCES [User](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    [drink_id] int NULL REFERENCES [Drink](id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    [total_amount] float NOT NULL,
+
+    PRIMARY KEY (time_added, user_id)
+);
