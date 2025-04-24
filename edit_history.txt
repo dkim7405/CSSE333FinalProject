@@ -1,0 +1,13 @@
+4.7.2025
+Database Creation
+    - Created a new database for the project.
+    - Collaboration user settings updated to allow for multiple users.
+
+4.9.2025
+    - Tables Created
+
+4.23.2025
+    - data imported from the source database.
+    - data cleaned and normalized.
+    - data populated into the new database.
+    - python script created to automate the data manipulation process.
