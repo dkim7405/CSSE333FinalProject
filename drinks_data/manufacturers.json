@@ -1,0 +1,73 @@
+[
+    {
+      "name": "Starbucks Corporation",
+      "website_link": "https://www.starbucks.com",
+      "location": "Seattle, Washington, USA"
+    },
+    {
+      "name": "McDonald's Corporation",
+      "website_link": "https://www.mcdonalds.com",
+      "location": "Chicago, Illinois, USA"
+    },
+    {
+      "name": "Dunkin' Donuts",
+      "website_link": "https://www.dunkindonuts.com",
+      "location": "Canton, Massachusetts, USA"
+    },
+    {
+      "name": "Tim Hortons",
+      "website_link": "https://www.timhortons.com",
+      "location": "Toronto, Ontario, Canada"
+    },
+    {
+      "name": "Red Bull GmbH",
+      "website_link": "https://www.redbull.com",
+      "location": "Fuschl am See, Austria"
+    },
+    {
+      "name": "Monster Beverage Corporation",
+      "website_link": "https://www.monsterenergy.com",
+      "location": "Corona, California, USA"
+    },
+    {
+      "name": "Rockstar Energy Drink (PepsiCo)",
+      "website_link": "https://www.rockstarenergy.com",
+      "location": "Purchase, New York, USA"
+    },
+    {
+      "name": "Living Essentials, LLC (5-Hour Energy)",
+      "website_link": "https://www.5hourenergy.com",
+      "location": "Plano, Texas, USA"
+    },
+    {
+      "name": "Celsius Holdings, Inc.",
+      "website_link": "https://www.celsius.com",
+      "location": "Boca Raton, Florida, USA"
+    },
+    {
+      "name": "Gatorade (PepsiCo)",
+      "website_link": "https://www.gatorade.com",
+      "location": "Purchase, New York, USA"
+    },
+    {
+      "name": "VITAL Pharmaceuticals, Inc. (Bang Energy)",
+      "website_link": "https://bang-energy.com",
+      "location": "Davie, Florida, USA"
+    },
+    {
+      "name": "The Coca-Cola Company",
+      "website_link": "https://www.coca-colacompany.com",
+      "location": "Atlanta, Georgia, USA"
+    },
+    {
+      "name": "PepsiCo, Inc.",
+      "website_link": "https://www.pepsico.com",
+      "location": "Purchase, New York, USA"
+    },
+    {
+      "name": "Caribou Coffee Company",
+      "website_link": "https://www.cariboucoffee.com",
+      "location": "Minneapolis, Minnesota, USA"
+    }
+  ]
+  
