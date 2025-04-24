@@ -19,7 +19,7 @@ CREATE TABLE [User] (
     [first_name] nvarchar(50),
     [middle_name] nvarchar(50),
     [last_name] nvarchar(50),
-    [gender] nvarchar(10),
+    [gender] char(1) CHECK (gender IN ('M', 'F', 'N')),
     [body_weight] float,
     [caffeine_limit] int,
     [date_of_birth] datetime,
@@ -45,7 +45,7 @@ CREATE TABLE [Drink] (
 
 CREATE TABLE [Message] (
     [id] int PRIMARY KEY IDENTITY(1,1),
-    [limit_progress] float NOT NULL,
+    [limit_progress] float NOT NULL CHECK (limit_progress >= 0 AND limit_progress <= 100),
     [message_text] nvarchar(500) NULL
 );
 
