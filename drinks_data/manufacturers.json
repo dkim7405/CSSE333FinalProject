@@ -1,6 +1,6 @@
 [
     [
-        
+
         {
           "name": "28-Black",
           "website": "https://www.28black.com",
@@ -95,10 +95,13 @@
           "manf_of_drink": ["Ale 8 1"]
         },
         {
-          "name": "Alsa",
-          "website": "",
-          "location": "",
-          "manf_of_drink": ["Alsa Energy Drink Mix"]
+            "name": "Alsa",
+            "website": "https://www.alsaenergy.com",
+            "location": "Ojai, California, United States",
+            "manf_of_drink": [
+                "Alsa Energy Drink Mix"
+            ]
+
         },
         {
           "name": "Arizona Beverages",
