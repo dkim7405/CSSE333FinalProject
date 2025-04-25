@@ -1,67 +1,83 @@
 import json
 import os
-import html
 from db_conn import db_conn
 
+# Load JSON files
 BASE_DIR = os.path.dirname(__file__)
 
-with open(os.path.join(BASE_DIR, "..", "data", "manufacturers.json"), encoding="utf-8") as f:
-    manufacturers = json.load(f)[0]
+with open(os.path.join(BASE_DIR, "..", "data", "manufacturers_updated.json"), encoding="utf-8") as f:
+    manufacturers = json.load(f)
 
 with open(os.path.join(BASE_DIR, "..", "data", "drinks_with_all_corrections.json"), encoding="utf-8") as f:
     drinks = json.load(f)
 
+# Build mapping: drink_name → manufacturer_name
+drink_to_manufacturer = {}
+for entry in manufacturers:
+    if isinstance(entry, dict):
+        drink_name = entry.get("drink_name", "").strip()
+        manufacturer = entry.get("manufacturer", "").strip()
+        if drink_name and manufacturer and manufacturer != "N/A":
+            drink_to_manufacturer[drink_name] = manufacturer
 
-drink_to_manf_name = {}
-
-for manf in manufacturers:
-    for drink in manf.get("manf_of_drink", []):
-        drink_to_manf_name[drink.strip()] = manf["name"].strip()
-
+# Connect to DB
 db = db_conn(
-    username="",
-    password=""
+    username=os.getenv('DB_USERNAME'),
+    password=os.getenv('DB_PASSWORD')
 )
 db.connect()
 
-sql_lookup_manf = """
-    SELECT id FROM Manufacturer WHERE name = ?;
-"""
-sql_insert_drink = """
+stmt = """
     INSERT INTO Drink (name, [mg/oz], image_url, manufacturer_id)
-    VALUES (?, ?, ?, ?);
+    VALUES (?, ?, ?, (
+        SELECT id FROM Manufacturer WHERE name = ?
+    ))
 """
 
-# # insert loop
-# for drink in drinks:
-#     # Skip null
-#     if not drink:
-#         continue
+inserted, skipped = 0, 0
 
-#     try:
-#         name = html.unescape(drink["name"].strip())
-#         mg_per_oz = drink["mg_per_oz"]
-#         image_url = drink["image"]
-#         manf_name = drink_to_manf_name.get(name)
+try:
+    for drink in drinks:
+        if not isinstance(drink, dict):
+            print("Skipped: Invalid drink entry (not a dict)")
+            skipped += 1
+            continue
 
-#         if not manf_name:
-#             print(f"Skipping '{name}': manufacturer name not found in JSON.")
-#             continue
+        name = drink.get("name", "").strip()
+        mg_per_oz = drink.get("mg_per_oz", None)
+        image_url = drink.get("image", "").strip()
 
-#         # get the manufacturer’s id
-#         db.cursor.execute(sql_lookup_manf, (manf_name))
-#         row = db.cursor.fetchone()
-#         if row is None:
-#             print(f"Skipping '{name}': manufacturer '{manf_name}' not in the DB.")
-#             continue
-#         manf_id = row[0]
+        # Skip if any missing
+        if not name:
+            print("Skipped: Missing drink name")
+            skipped += 1
+            continue
+        if mg_per_oz is None:
+            print(f"Skipped '{name}': Missing mg_per_oz")
+            skipped += 1
+            continue
+        if not image_url:
+            print(f"Skipped '{name}': Missing image_url")
+            skipped += 1
+            continue
 
-#         # insert the drink
-#         db.cursor.execute(sql_insert_drink, (name, mg_per_oz, image_url, manf_id))
+        manufacturer_name = drink_to_manufacturer.get(name)
+        
+        if not manufacturer_name:
+            print(f"Skipped '{name}': No matching manufacturer found")
+            skipped += 1
+            continue
 
-#     except Exception as exc:
-#         print(f"Error inserting '{drink.get('name', 'unknown')}': {exc}")
+        try:
+            db.cursor.execute(stmt, (name, float(mg_per_oz), image_url, manufacturer_name))
+            inserted += 1
+        except Exception as e:
+            print(f"Error inserting '{name}': {e}")
+            skipped += 1
 
-# db.connection.commit()
-# db.close()
-# print("All drink records inserted (where a matching manufacturer was found).")
+    db.connection.commit()
+    print(f"\nInserted: {inserted} drinks | Skipped: {skipped}")
+except Exception as e:
+    print(f"Critical error during batch insert: {e}")
+finally:
+    db.close()
