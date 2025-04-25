@@ -1,10 +1,13 @@
-from db_conn import db_conn
 import compute_limit
+import os
+from db_conn import db_conn
+from dotenv import load_dotenv
+load_dotenv()
 
 # replace <username> and <password>
 db = db_conn(
-    username='<username>',
-    password='<password>'
+    username=os.getenv('DB_USERNAME'),
+    password=os.getenv('DB_PASSWORD')
 )
 db.connect()
 

@@ -28,9 +28,9 @@ CREATE TABLE [User] (
 
 CREATE TABLE [Manufacturer] (
     [id] int PRIMARY KEY IDENTITY(1,1),
-    [name] nvarchar(50) NOT NULL UNIQUE,
-    [address] nvarchar(250) NOT NULL,
-    [website] nvarchar(300) NOT NULL
+    [name] nvarchar(150) NOT NULL UNIQUE,
+    [address] nvarchar(250) NULL,
+    [website] nvarchar(300) NULL
 );
 
 CREATE TABLE [Drink] (
@@ -38,8 +38,8 @@ CREATE TABLE [Drink] (
     [name] nvarchar(50) NOT NULL UNIQUE,
     [mg/oz] float NOT NULL,
     [image_url] nvarchar(300) NOT NULL,
-    [manufacturer_id] int REFERENCES [Manufacturer](id)
-        ON DELETE CASCADE
+    [manufacturer_id] int NULL REFERENCES [Manufacturer](id)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
@@ -77,11 +77,11 @@ CREATE TABLE [HasServingSize] (
     [drink_id] int NOT NULL REFERENCES [Drink](id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    [serving_size_id] int NOT NULL REFERENCES [ServingSize](id)
-        ON DELETE CASCADE
+    [serving_size_id] int NULL REFERENCES [ServingSize](id)
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
 
-    PRIMARY KEY (drink_id, serving_size_id)
+    PRIMARY KEY (drink_id)
 );
 
 CREATE TABLE [HasDrinksType] (
