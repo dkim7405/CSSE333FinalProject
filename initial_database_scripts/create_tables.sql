@@ -49,14 +49,17 @@ CREATE TABLE [Message] (
     [message_text] nvarchar(500) NULL
 );
 
-CREATE TABLE [ServingSize] (
+CREATE TABLE [DrinksType] (
     [id] int PRIMARY KEY IDENTITY(1,1),
     [name] nvarchar(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE [DrinksType] (
+CREATE TABLE [ServingSize] (
     [id] int PRIMARY KEY IDENTITY(1,1),
-    [name] nvarchar(50) NOT NULL UNIQUE
+    [name] nvarchar(50) NOT NULL UNIQUE,
+    [drinks_type_id] int NULL REFERENCES [DrinksType](id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE [AlertedWith] (

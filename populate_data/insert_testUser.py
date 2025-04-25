@@ -2,7 +2,10 @@ from db_conn import db_conn
 import compute_limit
 
 # replace <username> and <password>
-db = db_conn(username='<username>', password='<password>')
+db = db_conn(
+    username='<username>',
+    password='<password>'
+)
 db.connect()
 
 # compute caffeine limit by weight & gender
