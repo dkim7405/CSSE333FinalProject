@@ -1,6 +1,8 @@
 import json
 import os
 from db_conn import db_conn
+from dotenv import load_dotenv
+load_dotenv()
 
 # Load JSON files
 BASE_DIR = os.path.dirname(__file__)
@@ -62,11 +64,6 @@ try:
             continue
 
         manufacturer_name = drink_to_manufacturer.get(name)
-        
-        if not manufacturer_name:
-            print(f"Skipped '{name}': No matching manufacturer found")
-            skipped += 1
-            continue
 
         try:
             db.cursor.execute(stmt, (name, float(mg_per_oz), image_url, manufacturer_name))
