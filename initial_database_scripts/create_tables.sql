@@ -3,7 +3,6 @@ GO
 -- Drop existing tables if they exist
 IF OBJECT_ID('dbo.Adds', 'U') IS NOT NULL DROP TABLE dbo.Adds;
 IF OBJECT_ID('dbo.HasDrinksType', 'U') IS NOT NULL DROP TABLE dbo.[HasDrinksType];
-IF OBJECT_ID('dbo.HasServingSize', 'U') IS NOT NULL DROP TABLE dbo.[HasServingSize];
 IF OBJECT_ID('dbo.AlertedWith', 'U') IS NOT NULL DROP TABLE dbo.[AlertedWith];
 IF OBJECT_ID('dbo.ServingSize', 'U') IS NOT NULL DROP TABLE dbo.[ServingSize];
 IF OBJECT_ID('dbo.Message', 'U') IS NOT NULL DROP TABLE dbo.[Message];
@@ -56,8 +55,10 @@ CREATE TABLE [DrinksType] (
 
 CREATE TABLE [ServingSize] (
     [id] int PRIMARY KEY IDENTITY(1,1),
-    [name] nvarchar(50) NOT NULL UNIQUE,
-    [drinks_type_id] int NULL REFERENCES [DrinksType](id)
+    [name] nvarchar(50) NOT NULL,
+    [amount_ml] float NOT NULL,
+    [amount_oz] float NOT NULL,
+    [drinks_type_id] int NOT NULL REFERENCES [DrinksType](id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -71,17 +72,6 @@ CREATE TABLE [AlertedWith] (
         ON UPDATE CASCADE,
 
     PRIMARY KEY (user_id)
-);
-
-CREATE TABLE [HasServingSize] (
-    [drink_id] int NOT NULL REFERENCES [Drink](id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    [serving_size_id] int NULL REFERENCES [ServingSize](id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-
-    PRIMARY KEY (drink_id)
 );
 
 CREATE TABLE [HasDrinksType] (
