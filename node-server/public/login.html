@@ -5,18 +5,30 @@
   <title>Login – Caffeine Tracker</title>
 </head>
 <body>
-<h1>Login</h1>
+  <h1>Login</h1>
 
-<form method="POST" action="http://localhost:5050/api/login">
-  <label>Username:</label><br>
-  <input type="text"   name="username" required><br>
+  <form method="POST" action="http://localhost:5050/api/login">
+    <label for="username">Username:</label><br>
+    <input
+      id="username"
+      type="text"
+      name="username"
+      required
+      maxlength="50"
+    ><br>
 
-  <label>Password:</label><br>
-  <input type="password" name="password" required><br><br>
+    <label for="password">Password:</label><br>
+    <input
+      id="password"
+      type="password"
+      name="password"
+      required
+      maxlength="72"
+    ><br><br>
 
-  <button type="submit">Login</button>
-</form>
+    <button type="submit">Login</button>
+  </form>
 
-<p>Don’t have an account? <a href="register.html">Register here</a></p>
+  <p>Don’t have an account? <a href="register.html">Register here</a></p>
 </body>
 </html>
