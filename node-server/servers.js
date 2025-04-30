@@ -16,16 +16,35 @@ app.get("/", (req, res) => {
   });
 
   
-//get all users
-// app.get("/api/users", async(req,res) => {
+//get a users
+// app.get("/api/users/:id", async(req,res) => {
 //     try{
+//         const {id} = req.params; 
+//         if (isNaN(id)){
+//            return res.status(400).json({
+//                   success:false,
+//                    message:"Invalid id"
+
+//             })
+//         }
 //         const pool = await poolPromise;
-//         const result = await pool.request().query("SELECT * FROM User");
+//         const result = 
+//         await pool
+//         .request()
+//         .input("id", sql.Int, id)
+//         .query("SELECT * FROM [User] WHERE ID = @ID");
 //         console.log(result); 
+
+//         if(result.recordset.length === 0){
+//             res.status(400).json({
+//                 success:true,
+//                 message: "User details not found"
+//             });
+//         }
 
 //         res.status(200).json({
 //             success:true,
-//             empData:result.recordset
+//             empData:result.recordset[0]
 //         });
 
 //     }
@@ -33,7 +52,8 @@ app.get("/", (req, res) => {
 //         console.log(`Error`, error); 
 //         res.status(500).json({
 //             success:false,
-//             empData:result.recordset,
+//             //empData:result.recordset,
+//             empData: [],
 //             message:"Server error, try again",
 //             error: error.message
 //         });
